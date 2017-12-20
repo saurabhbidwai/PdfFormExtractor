@@ -36,7 +36,7 @@ import com.itextpdf.text.pdf.PdfObject;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PRAcroForm.FieldInformation;
 
-@Tags({"pdf","extract","values","pdfform"})
+@Tags({"pdf","extract","values","pdfform","json"})
 @CapabilityDescription("Extract values from PDF Form")
 @SeeAlso({})
 @ReadsAttributes({@ReadsAttribute(attribute="", description="")})
@@ -134,9 +134,9 @@ public String getFieldsAsJson(InputStream in){
 		PdfObject flInfo = field.getInfo().get(PdfName.V);
 		if (flInfo != null) {
 			if (flInfo.isString()) {
-				valuesMap.put(field.getName(), field.getInfo().getAsString(PdfName.V).toUnicodeString());
+				valuesMap.put(field.getName().replaceAll("'", ""), field.getInfo().getAsString(PdfName.V).toUnicodeString());
 			} else
-				valuesMap.put(field.getName(), flInfo.toString());
+				valuesMap.put(field.getName().replaceAll("'", ""), flInfo.toString());
 		}
 	}
 	//System.out.println(gsonObj.toJson(valuesMap));
