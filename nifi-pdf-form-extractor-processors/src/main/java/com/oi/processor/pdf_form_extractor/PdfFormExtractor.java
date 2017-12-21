@@ -128,15 +128,15 @@ public String getFieldsAsJson(InputStream in){
 	}
 	TreeMap<String, String> valuesMap = new TreeMap<>();
 	GsonBuilder builder = new GsonBuilder();
-	builder.disableHtmlEscaping();
+	//builder.disableHtmlEscaping();
 	Gson gsonObj = builder.create();
 	for (FieldInformation field : reader.getAcroForm().getFields()) {
 		PdfObject flInfo = field.getInfo().get(PdfName.V);
 		if (flInfo != null) {
 			if (flInfo.isString()) {
-				valuesMap.put(field.getName().replaceAll("'", ""), field.getInfo().getAsString(PdfName.V).toUnicodeString());
+				valuesMap.put(field.getName(), field.getInfo().getAsString(PdfName.V).toUnicodeString());
 			} else
-				valuesMap.put(field.getName().replaceAll("'", ""), flInfo.toString());
+				valuesMap.put(field.getName(), flInfo.toString());
 		}
 	}
 	//System.out.println(gsonObj.toJson(valuesMap));
